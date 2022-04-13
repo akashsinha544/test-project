@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/akashsinha544/test-project/issues"
   },
-  "homepage": "https://github.com/akashsinha544/test-project#readme"
+  "homepage": "https://github.com/akashsinha544/test-project#readme",
+  "dependencies": {
+    "mysql": "^2.18.1"
+  }
 }
