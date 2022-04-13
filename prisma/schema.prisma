@@ -19,3 +19,24 @@ model user {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+model course {
+  id Int @id @default(autoincrement())
+  course_instructor String @db.VarChar(255)
+  course_name String @db.VarChar(255)
+  course_video_url String @db.VarChar(255)
+  course_notes_url String @db.VarChar(255)
+  course_price Int @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model payment {
+  id Int @id @default(autoincrement())
+  system_uuid String @db.VarChar(255)
+  payment_method String @db.VarChar(255)
+  payment_status String @db.VarChar(255)
+  total_amount Int @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
