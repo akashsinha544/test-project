@@ -3,6 +3,8 @@ const crypto = require('crypto');
 const {PrismaClient} = require("@prisma/client")
 const {user} = new PrismaClient()
 const {application} = new PrismaClient()
+const {course} = new PrismaClient()
+const {payment} = new PrismaClient()
 
 router.get('/', async (req, res) => {
     console.log("trying to get all users...")
@@ -65,6 +67,52 @@ router.post('/:id/applications/create', async (req, res) =>{
         }
     })
     res.json(newApplication)
+})
+
+
+router.post('/:id/applications/purchase', async (req, res) =>{
+    const {id} = req.params;
+    const {application_id} = req.body;
+    const {payment_method} = req.body;
+
+    const payment_status = "SUCCESS"
+    const status = "PURCHASED"
+    
+    console.log ("purchasing an application for the user id {} ", id)
+
+    const myApplication = await application.findFirst({
+        where:{
+            id: Number(application_id)
+        },
+    })
+    const myCourse = await course.findFirst({
+        where:{
+            id: Number(myApplication.course_id)
+        },
+    })
+    
+    const price = myCourse.course_price
+    const uuid = myApplication.system_uuid
+
+    const newPayment = await payment.create({
+        data: {
+            system_uuid: uuid,
+            payment_method: payment_method,
+            payment_status: payment_status,
+            total_amount: price
+        }
+    })
+
+    const updatedApplication = await application.update({
+        where:{
+            id: myApplication.id
+        },
+        data:{
+            current_state: status
+        }
+    })
+
+    res.json(newPayment)
 })
 
 
