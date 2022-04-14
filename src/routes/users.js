@@ -1,4 +1,5 @@
 const router = require ("express").Router();
+const crypto = require('crypto');
 const {PrismaClient} = require("@prisma/client")
 const {user} = new PrismaClient()
 const {application} = new PrismaClient()
@@ -45,5 +46,28 @@ router.get('/:id/applications/purchased', async (req, res) =>{
     })
     res.json(myApplications)
 })
+
+
+router.post('/:id/applications/create', async (req, res) =>{
+    const {id} = req.params;
+    const {course_id} = req.body;
+    const status = "IN PROGRESS"
+    console.log("course_id",course_id);
+    
+    // console.log ("trying to create an application for the user id {} ", course_id)
+    
+    const newApplication = await application.create({
+        data: {
+            system_uuid: crypto.randomUUID(),
+            course_id: Number(course_id),
+            user_id: Number(id),
+            current_state: status
+        }
+    })
+    res.json(newApplication)
+})
+
+
+
 
 module.exports = router
