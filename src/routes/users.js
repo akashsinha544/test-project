@@ -33,4 +33,17 @@ router.get('/:id/applications/progress', async (req, res) =>{
     res.json(myApplications)
 })
 
+
+router.get('/:id/applications/purchased', async (req, res) =>{
+    const {id} = req.params
+    console.log("trying to get all in progress applications for the user id ", id)
+    let myApplications = await application.findMany({
+        where:{
+            user_id: Number(id),
+            current_state: "PURCHASED"
+        },
+    })
+    res.json(myApplications)
+})
+
 module.exports = router
