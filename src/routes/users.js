@@ -52,9 +52,9 @@ router.post('/:id/applications/create', async (req, res) =>{
     const {id} = req.params;
     const {course_id} = req.body;
     const status = "IN PROGRESS"
-    console.log("course_id",course_id);
     
-    // console.log ("trying to create an application for the user id {} ", course_id)
+    
+    console.log ("trying to create an application for the user id {} ", id)
     
     const newApplication = await application.create({
         data: {
