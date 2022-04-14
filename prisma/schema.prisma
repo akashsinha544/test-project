@@ -40,3 +40,13 @@ model payment {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+model application {
+  id Int @id @default(autoincrement())
+  system_uuid String @db.VarChar(255)
+  course_id Int
+  user_id Int
+  current_state String @db.VarChar(255)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
