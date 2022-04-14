@@ -1,6 +1,7 @@
 const router = require ("express").Router();
 const {PrismaClient} = require("@prisma/client")
 const {user} = new PrismaClient()
+const {application} = new PrismaClient()
 
 router.get('/', async (req, res) => {
     console.log("trying to get all users...")
@@ -18,6 +19,18 @@ router.get('/:id', async (req, res) =>{
         },
     })
     res.json(myUser)
+})
+
+router.get('/:id/applications/progress', async (req, res) =>{
+    const {id} = req.params
+    console.log("trying to get all in progress applications for the user id ", id)
+    let myApplications = await application.findMany({
+        where:{
+            user_id: Number(id),
+            current_state: "IN PROGRESS"
+        },
+    })
+    res.json(myApplications)
 })
 
 module.exports = router
