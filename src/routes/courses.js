@@ -9,4 +9,16 @@ router.get('/', async (req, res) => {
     res.json(courses)
 })
 
+router.get('/:id', async (req, res) =>{
+    console.log("trying to get user by id")
+    const {id} = req.params
+    console.log("the id is ", id)
+    let myCourse = await course.findFirst({
+        where:{
+            id: Number(id)
+        },
+    })
+    res.json(myCourse)
+})
+
 module.exports = router
