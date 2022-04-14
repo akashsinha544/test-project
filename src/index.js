@@ -1,10 +1,9 @@
-const express = require("express")
-const app = express()
+const express = require("express");
+const app = express();
 
-app.get("/", (req, res) =>{
-    res.send("I am working");
-})
+
+app.use('/univ/users', require("./routes/users"))
 
 app.listen(8080, () =>{
-    console.log("Listening on port 8080!")
+    console.log("Listening on port 8080")
 })
