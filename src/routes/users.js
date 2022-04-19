@@ -5,6 +5,7 @@ const {user} = new PrismaClient()
 const {application} = new PrismaClient()
 const {course} = new PrismaClient()
 const {payment} = new PrismaClient()
+const {test_paper} = new PrismaClient()
 
 
 router.get('/', async (req, res) => {
@@ -155,6 +156,26 @@ router.post('/:id/applications/purchase', async (req, res) =>{
 
     res.json(newPayment)
 })
+
+
+router.get('/applications/:id/get_test_paper', async(req, res) =>{
+    
+    const {id} = req.params;
+    const myApplication = await application.findFirst({
+        where:{
+            id: Number(id)
+        },
+    })
+    
+    const myTestPaper = await test_paper.findFirst({
+        where:{
+            course_id: myApplication.course_id
+        }
+    })
+
+    res.json(myTestPaper)
+})
+
 
 
 
