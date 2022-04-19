@@ -27,6 +27,7 @@ model course {
   course_video_url String @db.VarChar(255)
   course_notes_url String @db.VarChar(255)
   course_price Int @default(0)
+  has_test  Boolean    @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -46,6 +47,7 @@ model application {
   system_uuid String @db.VarChar(255)
   course_id Int
   user_id Int
+  test_status String @db.VarChar(255)
   current_state String @db.VarChar(255)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
