@@ -126,35 +126,38 @@ router.post('/:id/applications/purchase', async (req, res) =>{
         res.json("You cannot pay for the application if you have failed the test or have not taken it")
     }
     
-    const myCourse = await course.findFirst({
-        where:{
-            id: Number(myApplication.course_id)
+    else{
+        const myCourse = await course.findFirst({
+            where:{
+                id: Number(myApplication.course_id)
+            
+            },
+        })
         
-        },
-    })
+        const price = myCourse.course_price
+        const uuid = myApplication.system_uuid
     
-    const price = myCourse.course_price
-    const uuid = myApplication.system_uuid
-
-    const newPayment = await payment.create({
-        data: {
-            system_uuid: uuid,
-            payment_method: payment_method,
-            payment_status: payment_status,// sucess
-            total_amount: price
-        }
-    })
-
-    const updatedApplication = await application.update({
-        where:{
-            id: myApplication.id
-        },
-        data:{
-            current_state: status
-        }
-    })
-
-    res.json(newPayment)
+        const newPayment = await payment.create({
+            data: {
+                system_uuid: uuid,
+                payment_method: payment_method,
+                payment_status: payment_status,// sucess
+                total_amount: price
+            }
+        })
+    
+        const updatedApplication = await application.update({
+            where:{
+                id: myApplication.id
+            },
+            data:{
+                current_state: status
+            }
+        })
+    
+        res.json(newPayment)
+    }
+    
 })
 
 
