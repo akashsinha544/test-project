@@ -6,6 +6,7 @@ const {application} = new PrismaClient()
 const {course} = new PrismaClient()
 const {payment} = new PrismaClient()
 
+
 router.get('/', async (req, res) => {
     console.log("trying to get all users...")
     let users = await user.findMany()
@@ -30,7 +31,7 @@ router.get('/:id/applications/progress', async (req, res) =>{
     let myApplications = await application.findMany({
         where:{
             user_id: Number(id),
-            current_state: "IN PROGRESS"
+            current_state: "IN PROGRESS"//showing the items in your cart
         },
     })
     res.json(myApplications)
@@ -43,7 +44,7 @@ router.get('/:id/applications/purchased', async (req, res) =>{
     let myApplications = await application.findMany({
         where:{
             user_id: Number(id),
-            current_state: "PURCHASED"
+            current_state: "PURCHASED"// showing the courses that have been purchased
         },
     })
     res.json(myApplications)
@@ -52,9 +53,9 @@ router.get('/:id/applications/purchased', async (req, res) =>{
 
 router.post('/:id/applications/create', async (req, res) =>{
     const {id} = req.params;
+    
     const {course_id} = req.body;
     const status = "IN PROGRESS"
-    
     
     console.log ("trying to create an application for the user id {} ", id)
     
@@ -71,7 +72,7 @@ router.post('/:id/applications/create', async (req, res) =>{
 
 
 router.post('/:id/applications/purchase', async (req, res) =>{
-    const {id} = req.params;
+    const {id} = req.params;//1
     const {application_id} = req.body;
     const {payment_method} = req.body;
 
@@ -85,9 +86,11 @@ router.post('/:id/applications/purchase', async (req, res) =>{
             id: Number(application_id)
         },
     })
+    
     const myCourse = await course.findFirst({
         where:{
             id: Number(myApplication.course_id)
+        
         },
     })
     
@@ -98,7 +101,7 @@ router.post('/:id/applications/purchase', async (req, res) =>{
         data: {
             system_uuid: uuid,
             payment_method: payment_method,
-            payment_status: payment_status,
+            payment_status: payment_status,// sucess
             total_amount: price
         }
     })
@@ -115,7 +118,25 @@ router.post('/:id/applications/purchase', async (req, res) =>{
     res.json(newPayment)
 })
 
+router.post('/add', async(req, res) => {
+    console.log("Adding user")
+    const{first_name} = req.body;
+    const{last_name} = req.body;
+    const{address} = req.body;
+    const{mobile} = req.body;
 
+    const newUser = await user.create({
+        data: {
+            first_name: first_name,
+            last_name: last_name,
+            address: address,
+            mobile: mobile
+        }
+    
+    })
 
+      res.json(newUser)
+
+})
 
 module.exports = router
