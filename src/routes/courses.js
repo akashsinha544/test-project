@@ -58,6 +58,35 @@ router.get('/course_name/:course_name', async (req, res) => {
     })
     res.json(courseName)
 })
+router.delete('/:id/delete', async(req, res) =>{
+    console.log("trying to delete course by id")
+    const {id} = req.params
+    let deletedCourse = await course.delete({
+        where:{
+            id: Number(id)
+        },
+    })
+    res.json(deletedCourse)
+})
+
+
+router.put('/:id/update', async(req, res) =>{
+    console.log("trying to delete course by id")
+    const {id} = req.params
+    const {course_instructor} = req.body
+
+    let updatedCourse = await course.update({
+        where:{
+            id: Number(id) 
+        },
+
+        data:{
+            course_instructor: course_instructor
+        }
+    })
+    res.json(updatedCourse)
+})
+
 
 module.exports = router
 
