@@ -66,7 +66,7 @@ model test_paper {
 model test_details {
   id Int @id @default(autoincrement())
   user_id Int
-  test_id Int
+  test_paper_id Int
   application_id Int
   answers String @db.VarChar(255)
   system_uuid String @db.VarChar(255)
