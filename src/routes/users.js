@@ -13,6 +13,30 @@ router.get('/', async (req, res) => {
     res.json(users)
 })
 
+router.post('/add', async(req, res) => {
+    console.log("Adding user")
+    const{first_name} = req.body;
+    const{last_name} = req.body;
+    const{address} = req.body;
+    const{mobile} = req.body;
+
+    const newUser = await user.create({
+        data: {
+            first_name: first_name,
+            last_name: last_name,
+            address: address,
+            mobile: mobile
+        }
+    
+    })
+
+      res.json(newUser)
+
+})
+
+
+
+
 router.get('/:id', async (req, res) =>{
     console.log("trying to get user by id")
     const {id} = req.params
@@ -53,18 +77,26 @@ router.get('/:id/applications/purchased', async (req, res) =>{
 
 router.post('/:id/applications/create', async (req, res) =>{
     const {id} = req.params;
-    
+    var test_status = "NOT NEEDED"
     const {course_id} = req.body;
     const status = "IN PROGRESS"
     
     console.log ("trying to create an application for the user id {} ", id)
-    
+    const myCourse = await course.findFirst({
+        where:{
+            id: Number(course_id)
+        } 
+    })
+    if(myCourse.has_test){
+        test_status = "YET TO TAKE"
+    }
     const newApplication = await application.create({
         data: {
             system_uuid: crypto.randomUUID(),
             course_id: Number(course_id),
             user_id: Number(id),
-            current_state: status
+            current_state: status,
+            test_status: test_status
         }
     })
     res.json(newApplication)
@@ -118,26 +150,6 @@ router.post('/:id/applications/purchase', async (req, res) =>{
     res.json(newPayment)
 })
 
-router.post('/add', async(req, res) => {
-    console.log("Adding user")
-    const{first_name} = req.body;
-    const{last_name} = req.body;
-    const{address} = req.body;
-    const{mobile} = req.body;
-
-    const newUser = await user.create({
-        data: {
-            first_name: first_name,
-            last_name: last_name,
-            address: address,
-            mobile: mobile
-        }
-    
-    })
-
-      res.json(newUser)
-
-})
 
 
 
