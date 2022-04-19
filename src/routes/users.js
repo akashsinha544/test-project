@@ -186,7 +186,8 @@ router.post('/:id/take_test', async (req, res) =>{
     const {application_id} = req.body;
     const {answers} = req.body;
     const {test_paper_id} = req.body;
-    var test_result = "PENDING";
+    var test_result = "RESULT PENDING";
+    var application_test_status = "RESULT PENDING"
 
     const myApplication = await application.findFirst({
         where:{
@@ -205,11 +206,17 @@ router.post('/:id/take_test', async (req, res) =>{
            test_paper_id: Number(test_paper_id)
        }
    })
+   const updatedApplication = await application.update({
+        where:{            
+            id: application_id
+        },
+        data:{
+            test_status: application_test_status
+        }
+})
 
     res.json(newTestDetails)
 
  })
-
-
 
 module.exports = router
