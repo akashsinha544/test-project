@@ -61,3 +61,16 @@ model test_paper {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+
+model test_details {
+  id Int @id @default(autoincrement())
+  user_id Int
+  test_id Int
+  application_id Int
+  answers String @db.VarChar(255)
+  system_uuid String @db.VarChar(255)
+  test_result String @db.VarChar(255)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
