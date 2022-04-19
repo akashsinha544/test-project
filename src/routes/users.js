@@ -6,6 +6,8 @@ const {application} = new PrismaClient()
 const {course} = new PrismaClient()
 const {payment} = new PrismaClient()
 const {test_paper} = new PrismaClient()
+const {test_details} = new PrismaClient()
+
 
 
 router.get('/', async (req, res) => {
@@ -179,7 +181,34 @@ router.get('/applications/:id/get_test_paper', async(req, res) =>{
     res.json(myTestPaper)
 })
 
+router.post('/:id/take_test', async (req, res) =>{
+    const {id} = req.params;
+    const {application_id} = req.body;
+    const {answers} = req.body;
+    const {test_paper_id} = req.body;
+    var test_result = "PENDING";
 
+    const myApplication = await application.findFirst({
+        where:{
+            id: application_id
+        },
+    })
+
+    
+   const newTestDetails = await test_details.create({
+       data:{
+           user_id: Number(id),
+           application_id: myApplication.id,
+           system_uuid: myApplication.system_uuid,
+           test_result: test_result,
+           answers: answers,
+           test_paper_id: Number(test_paper_id)
+       }
+   })
+
+    res.json(newTestDetails)
+
+ })
 
 
 
