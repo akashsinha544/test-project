@@ -37,9 +37,6 @@ router.post('/add', async(req, res) => {
 
 })
 
-
-
-
 router.get('/:id', async (req, res) =>{
     console.log("trying to get user by id")
     const {id} = req.params
@@ -123,7 +120,7 @@ router.post('/:id/applications/purchase', async (req, res) =>{
     })
 
     if (myApplication.test_status === "YET TO TAKE" 
-    || myApplication.test_status === "FAILED"){
+    || myApplication.test_status === "FAIL"){
         res.status(400)
         res.json("You cannot pay for the application if you have failed the test or have not taken it")
     }

@@ -71,7 +71,7 @@ router.delete('/:id/delete', async(req, res) =>{
 
 
 router.put('/:id/update', async(req, res) =>{
-    console.log("trying to delete course by id")
+    console.log("trying to update course by id")
     const {id} = req.params
     const {course_instructor} = req.body
 
