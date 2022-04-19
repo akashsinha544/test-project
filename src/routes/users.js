@@ -118,6 +118,12 @@ router.post('/:id/applications/purchase', async (req, res) =>{
             id: Number(application_id)
         },
     })
+
+    if (myApplication.test_status === "YET TO TAKE" 
+    || myApplication.test_status === "FAILED"){
+        res.status(400)
+        res.json("You cannot pay for the application if you have failed the test or have not taken it")
+    }
     
     const myCourse = await course.findFirst({
         where:{
