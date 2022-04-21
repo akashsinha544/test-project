@@ -40,7 +40,7 @@ router.put("/update_result", async (req, res) =>{
 
     const myApplication = await application.findFirst({
         where:{
-            user_id: Number(application_id)
+            id: Number(application_id)
         }
         
     })

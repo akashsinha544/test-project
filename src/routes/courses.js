@@ -28,6 +28,7 @@ router.post('/add', async (req, res) => {
     const {course_video_url} = req.body;
     const {course_notes_url} = req.body;
     const {course_price} = req.body;
+    const {has_test} = req.body;
 
     console.log("Trying to add a course")
 
@@ -37,7 +38,8 @@ router.post('/add', async (req, res) => {
             course_name: course_name,
             course_video_url: course_video_url,
             course_notes_url: course_notes_url,
-            course_price: course_price
+            course_price: course_price,
+            has_test: has_test
 
         }
 

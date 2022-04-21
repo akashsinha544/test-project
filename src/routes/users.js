@@ -1,6 +1,7 @@
 const router = require ("express").Router();
 const crypto = require('crypto');
-const {PrismaClient} = require("@prisma/client")
+const {PrismaClient} = require("@prisma/client");
+const { create } = require("domain");
 const {user} = new PrismaClient()
 const {application} = new PrismaClient()
 const {course} = new PrismaClient()
@@ -101,7 +102,6 @@ router.post('/:id/applications/create', async (req, res) =>{
     })
     res.json(newApplication)
 })
-
 
 router.post('/:id/applications/purchase', async (req, res) =>{
     const {id} = req.params;//1
